@@ -8,6 +8,8 @@ import android.widget.ImageView;
 
 public class FullScreenImage extends AppCompatActivity {
 
+    //TODO: Create Button instances
+
     ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +27,8 @@ public class FullScreenImage extends AppCompatActivity {
         ImageAdapter imageAdapter = new ImageAdapter(this);
 
         imageView.setImageResource(imageAdapter.imageArray[position]);
+
+        //TODO: add onClickListeners to make buttons perform their functions.
     }
+
 }
