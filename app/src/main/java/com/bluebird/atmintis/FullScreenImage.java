@@ -15,13 +15,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+// Jack
+import android.widget.Button;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
+/// Jack
+import android.widget.Button;
+import android.view.View;
+///
+
 public class FullScreenImage extends AppCompatActivity {
 
     //TODO: Create Button instances
+    // Jack
+
 
     ImageView imageView;
 
@@ -60,6 +70,20 @@ public class FullScreenImage extends AppCompatActivity {
         setContentView(R.layout.activity_full_screen_image);
         imageView = (ImageView) findViewById(R.id.image_view);
 
+        /// Jack
+        FloatingActionButton audioCaptionButton = (FloatingActionButton) findViewById(R.id.audioPlayFab);
+        audioCaptionButton.setOnClickListener(
+                new View.OnClickListener()
+                {
+                    public void onClick(View v)
+                    {
+                        onClickCaptionButton(v);
+                    }
+                }
+        );
+
+        ///
+
         getSupportActionBar().hide();
 
         Intent intent = getIntent();
@@ -93,15 +117,14 @@ public class FullScreenImage extends AppCompatActivity {
     public void onClickCaptionButton(View view){
 
         if(!hasCaption && !isRecording){
-            Toast.makeText(this,R.string.recordMessage,Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "RECORDING!",Toast.LENGTH_LONG).show();
             startRecording();
-
         }
         else if (isRecording){
             stopRecording();
         }
         else if(hasCaption && !isRecording){
-            Toast.makeText(this,R.string.playMessage,Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"PLAYING!",Toast.LENGTH_LONG).show();
             startPlaying();
         }
         else if(isPlaying){
