@@ -5,8 +5,14 @@ import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import java.util.ArrayList;
 
 public class ImageAdapter extends BaseAdapter {
 
@@ -45,6 +51,22 @@ public class ImageAdapter extends BaseAdapter {
         galleryImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         galleryImageView.setLayoutParams(new ViewGroup.LayoutParams(340, 350));
 
+        /*//Keith
+        LinearLayout llMain = (LinearLayout)convertView.findViewById(R.id.ll_main);
+        if(imageArray.length - 1 == position){
+            llMain.addView(addButton());
+        }*/
+
         return galleryImageView;
     }
+
+    /*
+    private Button addButton() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        Button button = new Button(mContext);
+        button.setLayoutParams(params);
+        button.setText("Testing");
+        return button;
+    }*/
 }
