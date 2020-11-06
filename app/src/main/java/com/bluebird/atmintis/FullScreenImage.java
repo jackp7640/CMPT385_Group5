@@ -99,6 +99,7 @@ public class FullScreenImage extends AppCompatActivity {
         setContentView(R.layout.activity_full_screen_image);
         imageView = (ImageView) findViewById(R.id.image_view);
 
+
         /// Jack - AUDIO CAPTION
         FloatingActionButton audioCaptionButton = (FloatingActionButton) findViewById(R.id.audioPlayFab);
         audioCaptionButton.setOnClickListener(
@@ -137,14 +138,18 @@ public class FullScreenImage extends AppCompatActivity {
         fileName += "/audio"+position+".3gp";
         hasCaption = isHasCaption();
 
-
         /// Jack - TEXT CAPTION
         textCaptionFileName = "text"+position+".txt";
+        hasTextCaption = isHasTextCaption();
+
+
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 200);
             ActivityCompat.requestPermissions(this,permissions, 200);
         }
-        hasTextCaption = isHasCaption();
+
 
         ///
 
@@ -185,7 +190,6 @@ public class FullScreenImage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         textCaption = String.valueOf(taskEditText.getText());
-                        hasTextCaption = true;
                         //saveTextCaptionAsFile(textCaptionFileName, textCaption);
                         saveFile(textCaptionFileName, textCaption);
                     }
@@ -230,6 +234,7 @@ public class FullScreenImage extends AppCompatActivity {
             FileOutputStream fos = openFileOutput(file, Context.MODE_PRIVATE);
             fos.write(text.getBytes());
             fos.close();
+            hasTextCaption = true;
             Toast.makeText(this, "SAVED", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -336,6 +341,13 @@ public class FullScreenImage extends AppCompatActivity {
     //other method
     public boolean isHasCaption(){
         if (getDatabasePath(fileName).exists()){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isHasTextCaption(){
+        if (getDatabasePath(getApplicationContext().getFilesDir().getPath()+ "/" + textCaptionFileName).exists()){
             return true;
         }
         return false;
