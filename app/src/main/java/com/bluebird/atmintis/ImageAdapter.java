@@ -13,6 +13,7 @@ public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
     //Test for large image files
+    // TEST COMMENT 
         public int[] imageArray = {
             R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4,
             R.drawable.image_5, R.drawable.image_6, R.drawable.image_7, R.drawable.image_8,
