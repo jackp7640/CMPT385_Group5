@@ -15,6 +15,7 @@
 */
 package com.bluebird.atmintis;
 
+//Imports
 import android.content.Context;
 import android.media.Image;
 import android.view.View;
