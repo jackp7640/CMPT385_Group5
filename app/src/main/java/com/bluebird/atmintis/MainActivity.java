@@ -51,5 +51,4 @@ public class MainActivity extends AppCompatActivity {
     //TODO: On Clicking button, add files from external storage
     }
 
-
 }
