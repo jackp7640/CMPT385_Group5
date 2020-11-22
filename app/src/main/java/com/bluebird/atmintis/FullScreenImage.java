@@ -168,7 +168,6 @@ public class FullScreenImage extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,permissions, 200);
         }
 
-
         ///
 
     }
