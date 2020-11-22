@@ -1,5 +1,23 @@
+/**
+* File: FullScreenImage
+*
+* This file is in use when the image has been selected and is in full screen mode.
+* It manages the caption buttons, as well as creating, editing, and file writing 
+* for both kinds of captions (Audio, Text)
+*
+* Authors:
+* Kieth Chung; mingipchung@gmail.com
+* Aditya Lakshminarayanan; aditya.net09@gmail.com
+* Theo Messer; messertheo@gmail.com
+* Jack Park; jackp7640@gmail.com
+* Charles Wang; xiaotian980204@gmail.com
+*
+* Date: November 6 2020
+*
+*//
 package com.bluebird.atmintis;
 
+//Imports
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +39,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-// Jack
 import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,27 +53,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.Buffer;
 
-/// Jack
 import android.widget.Button;
 import android.view.View;
 ///
 
 public class FullScreenImage extends AppCompatActivity {
 
-    //TODO: Create Button instances
-
-    /// Jack - TEXT CAPTION
+    //Creating instances
     boolean hasTextCaption;
     private static String textCaption;
     private static String textCaptionFileName = null;
 
-    ///
-
-
-
     ImageView imageView;
 
-    //use for CaptionButton
+    //used for CaptionButton
     private FloatingActionButton captionButton = null;
     private static final String LOG_TAG = "AudioRecordTest";
     boolean hasCaption;
@@ -67,12 +77,13 @@ public class FullScreenImage extends AppCompatActivity {
     private static String fileName = null;
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
 
-
-    //Requesting permission to RECORD_AUDIO
     private boolean permissionToRecordAccepted = false;
     private String [] permissions = {Manifest.permission.RECORD_AUDIO}; //permission list
 
-    //Override Method
+    /**
+    * Override method
+    * First part is permissions.
+    */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -100,7 +111,7 @@ public class FullScreenImage extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.image_view);
 
 
-        /// Jack - AUDIO CAPTION
+        //audio caption button
         captionButton= (FloatingActionButton) findViewById(R.id.audioPlayFab);
         captionButton.setOnClickListener(
                 new View.OnClickListener()
@@ -111,9 +122,8 @@ public class FullScreenImage extends AppCompatActivity {
                     }
                 }
         );
-        ///
 
-        //Keith
+        //long click button
         captionButton.setOnLongClickListener(
                 new View.OnLongClickListener()
                 {
@@ -122,7 +132,7 @@ public class FullScreenImage extends AppCompatActivity {
                 }
         );
 
-        /// Jack - TEXT CAPTION
+        //Text caption button
         FloatingActionButton textCaptionButton = (FloatingActionButton) findViewById(R.id.addCaptionFab);
         textCaptionButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -133,8 +143,9 @@ public class FullScreenImage extends AppCompatActivity {
                 }
         );
 
-        ///
-
+        /**
+        * Creating files for Caption storage
+        */
         getSupportActionBar().hide();
 
         Intent intent = getIntent();
@@ -142,19 +153,19 @@ public class FullScreenImage extends AppCompatActivity {
         ImageAdapter imageAdapter = new ImageAdapter(this);
         imageView.setImageResource(imageAdapter.imageArray[position]);
 
-        //initiate file for audio storage
+        //file for audio caption storage
         fileName = getApplicationContext().getFilesDir().getPath();
         fileName += "/audio"+position+".3gp";
         hasCaption = isHasCaption();
         captionButton.setImageResource(captionButtonImage());
 
-        /// Jack - TEXT CAPTION
+        //file for text caption storage
         textCaptionFileName = "text"+position+".txt";
         hasTextCaption = isHasTextCaption();
 
 
 
-
+        //Request permission to write in storage
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 200);
             ActivityCompat.requestPermissions(this,permissions, 200);
@@ -166,6 +177,7 @@ public class FullScreenImage extends AppCompatActivity {
     }
 
     @Override
+    //release file from player
     public void onStop() {
         super.onStop();
         if (recorder != null) {
@@ -178,10 +190,9 @@ public class FullScreenImage extends AppCompatActivity {
             player = null;
         }
     }
-    //Ends of override method
+    //End of override methods
 
-    /// JACK - Text Caption
-
+    //If there is text caption, show it. Otherwise make one.
     private void onClickTextCaptionButton(Context c) {
         if (hasTextCaption) {
             DisplayTextCaption(c);
@@ -190,7 +201,8 @@ public class FullScreenImage extends AppCompatActivity {
             RecordTextCaption(c);
         }
     }
-
+    
+    //Record the text caption
     private void RecordTextCaption(Context c) {
         final EditText taskEditText = new EditText(c);
         AlertDialog dialog = new AlertDialog.Builder(c)
@@ -208,7 +220,7 @@ public class FullScreenImage extends AppCompatActivity {
                 .create();
         dialog.show();
     }
-
+    //Display the text caption
     private void DisplayTextCaption(Context c) {
         String text = readFile(textCaptionFileName);
         AlertDialog dialog = new AlertDialog.Builder(c)
@@ -218,7 +230,7 @@ public class FullScreenImage extends AppCompatActivity {
                 .create();
         dialog.show();
     }
-
+    //Save the text caption
     private void saveTextCaptionAsFile(String textCaptionFileName, String content) {
         String fileName = textCaptionFileName + ".txt";
 
@@ -238,7 +250,7 @@ public class FullScreenImage extends AppCompatActivity {
             Toast.makeText(this, "ERROR SAVING", Toast.LENGTH_LONG).show();
         }
     }
-
+    //Save the file
     private void saveFile(String file, String text) {
         try {
             FileOutputStream fos = openFileOutput(file, Context.MODE_PRIVATE);
@@ -252,7 +264,7 @@ public class FullScreenImage extends AppCompatActivity {
         }
     }
 
-
+    //Open the file
     private String readFile(String file) {
         String text = "";
 
@@ -280,7 +292,7 @@ public class FullScreenImage extends AppCompatActivity {
     ///
 
 
-    //onClick
+    //Set up the audio caption button to record, playback, or stop, as is appropriate
     public void onClickAudioCaptionButton(View view){
 
         if(hasCaption){
@@ -304,7 +316,7 @@ public class FullScreenImage extends AppCompatActivity {
 
     }
 
-    //Keith
+    //Delete function action
     public void onLongClickCaptionButton(View view){
         if(getDatabasePath(fileName).exists()){
             deleteDatabase(fileName);
@@ -317,7 +329,9 @@ public class FullScreenImage extends AppCompatActivity {
     }
     //ends of onclick
 
-    //method for caption button
+    //Methods for caption button
+    
+    //Method to record audio
     private void startRecording() {
         ActivityCompat.requestPermissions(this,permissions, REQUEST_RECORD_AUDIO_PERMISSION);
         recorder = new MediaRecorder();
@@ -335,7 +349,7 @@ public class FullScreenImage extends AppCompatActivity {
         captionButton.setImageResource(R.drawable.ic_action_stop);
         recorder.start();
     }
-
+    //Method to end recording audio
     private void stopRecording() {
         recorder.stop();
         recorder.release();
@@ -344,7 +358,7 @@ public class FullScreenImage extends AppCompatActivity {
         hasCaption = true;
         captionButton.setImageResource(captionButtonImage());
     }
-
+    //Method to start playing audio
     private void startPlaying() {
         player = new MediaPlayer();
         try {
@@ -357,7 +371,7 @@ public class FullScreenImage extends AppCompatActivity {
             Log.e(LOG_TAG, "prepare() failed");
         }
     }
-
+    //Method to stop playing audio
     private void stopPlaying() {
         if(player != null && isPlaying) {
             player.release();
@@ -368,21 +382,23 @@ public class FullScreenImage extends AppCompatActivity {
     }
     //ends of method for caption button
 
-    //other method
+    //other methods
+    
+    //See if there is caption
     public boolean isHasCaption(){
         if (getDatabasePath(fileName).exists()){
             return true;
         }
         return false;
     }
-
+    //See if there is text caption
     public boolean isHasTextCaption(){
         if (getDatabasePath(getApplicationContext().getFilesDir().getPath()+ "/" + textCaptionFileName).exists()){
             return true;
         }
         return false;
     }
-    
+    //Set caption button to show if there is a caption or not
     public int captionButtonImage(){
         if(hasCaption)return R.drawable.ic_action_play;
         else return R.drawable.ic_action_record;
