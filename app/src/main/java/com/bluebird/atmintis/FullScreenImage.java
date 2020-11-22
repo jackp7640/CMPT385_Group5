@@ -80,10 +80,9 @@ public class FullScreenImage extends AppCompatActivity {
     private boolean permissionToRecordAccepted = false;
     private String [] permissions = {Manifest.permission.RECORD_AUDIO}; //permission list
 
-    /**
-    * Override method
-    * First part is permissions.
-    */
+    //Override method
+    
+    //First part is permissions.
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -143,9 +142,7 @@ public class FullScreenImage extends AppCompatActivity {
                 }
         );
 
-        /**
-        * Creating files for Caption storage
-        */
+        //Creating files for Caption storage
         getSupportActionBar().hide();
 
         Intent intent = getIntent();
