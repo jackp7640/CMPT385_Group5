@@ -17,6 +17,7 @@ package com.bluebird.atmintis;
 
 //Imports
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,16 +25,21 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ImageAdapter extends BaseAdapter {
 
     private Context mContext;
     
     //Where the images are ordered
-    public int[] imageArray = {
-        R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4,
-        R.drawable.image_5, R.drawable.image_6, R.drawable.image_7, R.drawable.image_8,
-        R.drawable.image_9, R.drawable.image_10, R.drawable.image_11
+
+    public Bitmap[] imageArray = {
+
     };
+
+
 
     //Constructor
     public ImageAdapter(Context mContext) {
@@ -60,10 +66,21 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView galleryImageView = new ImageView(mContext);
-        galleryImageView.setImageResource(imageArray[position]);
+
+        // TODO: change setImageResource to setImageBitmap
+        //galleryImageView.setImageResource(imageArray[position]);
+        galleryImageView.setImageBitmap(imageArray[position]);
+
+
         galleryImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         galleryImageView.setLayoutParams(new ViewGroup.LayoutParams(340, 350));
 
         return galleryImageView;
+    }
+
+    public void addElement(Bitmap[] a, Bitmap e) {
+        a  = Arrays.copyOf(a, a.length + 1);
+        a[a.length - 1] = e;
+        imageArray = a;
     }
 }

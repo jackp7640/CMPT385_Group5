@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
@@ -147,8 +148,14 @@ public class FullScreenImage extends AppCompatActivity {
 
         Intent intent = getIntent();
         int position = intent.getExtras().getInt("id");
-        ImageAdapter imageAdapter = new ImageAdapter(this);
-        imageView.setImageResource(imageAdapter.imageArray[position]);
+        //Bitmap[] imageArray = (Bitmap[]) intent.getParcelableArrayExtra("ImageArray");
+        Bitmap imageBM = intent.getExtras().getParcelable("image");
+
+
+        //ImageAdapter imageAdapter = new ImageAdapter(this);
+
+        //imageView.setImageResource(imageAdapter.imageArray[position]);
+        imageView.setImageBitmap(imageBM);
 
         //file for audio caption storage
         fileName = getApplicationContext().getFilesDir().getPath();
