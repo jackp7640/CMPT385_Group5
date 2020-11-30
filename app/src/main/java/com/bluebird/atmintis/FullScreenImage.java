@@ -34,6 +34,7 @@ import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -53,6 +54,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.Buffer;
+import java.util.Locale;
 
 import android.widget.Button;
 import android.view.View;
@@ -295,28 +297,55 @@ public class FullScreenImage extends AppCompatActivity {
     ///
 
 
+    ///Text To Speech TTS functionality
+    //New OnInit listener to check if the phone has the ability to run TTS in the language
+    TextToSpeech textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+        @Override
+        public void onInit(int status) {
+            if(status == TextToSpeech.SUCCESS){
+                int result = textToSpeech.setLanguage(Locale.US);
+            }else{
+                Log.e("TTS", "Unable to initialize TTS");
+            }
+        }
+    });
+
     //Set up the audio caption button to record, playback, or stop, as is appropriate
     public void onClickAudioCaptionButton(View view){
 
-        if(hasCaption){
-            if(isPlaying){
-                stopPlaying();
-            }
-            else {
-                Toast.makeText(this,"PLAYING!",Toast.LENGTH_LONG).show();
-                startPlaying();
-            }
-        }
-        else{
-            if(isRecording){
-                stopRecording();
+        //Check if text caption exists
+        //if exists, use TTS to play otherwise record/play audio normally
+        if(isHasTextCaption()){
+            textToSpeech.speak(readFile(textCaptionFileName), textToSpeech.QUEUE_FLUSH, null);
+        }else {
+            if(hasCaption){
+                if(isPlaying){
+                    stopPlaying();
+                }
+                else {
+                    Toast.makeText(this,"PLAYING!",Toast.LENGTH_LONG).show();
+                    startPlaying();
+                }
             }
             else{
-                Toast.makeText(this, "RECORDING!",Toast.LENGTH_LONG).show();
-                startRecording();
+                if(isRecording){
+                    stopRecording();
+                }
+                else{
+                    Toast.makeText(this, "RECORDING!",Toast.LENGTH_LONG).show();
+                    startRecording();
+                }
             }
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (textToSpeech != null){
+            textToSpeech.stop();
+        }
+        super.onDestroy();
     }
 
     //Delete function action
@@ -406,4 +435,9 @@ public class FullScreenImage extends AppCompatActivity {
         if(hasCaption)return R.drawable.ic_action_play;
         else return R.drawable.ic_action_record;
     }
+
+
+
+
+
 }
