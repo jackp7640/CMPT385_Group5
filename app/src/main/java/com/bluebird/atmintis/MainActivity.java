@@ -38,7 +38,16 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,15 +58,26 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST = 0;
 
     public ImageAdapter image = new ImageAdapter(this);
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public ImageAdapter getImageAdapter(){
         return image; //This is the variable value I can't get.
     }
-    
+
+    public ArrayList<Uri> uris = new ArrayList<>();
+
+    final static private String TAG = "tag";
+
+
+
+
+
     //Show the grid on the main screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         if (savedInstanceState != null) {
             Log.d("SUCCESS", "STARTING FROM SAVED INSTANCE STATE");
@@ -74,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(getApplicationContext(), FullScreenImage.class);
                     intent.putExtra("id", position);
-                    intent.putExtra("image", image.imageArray[position]);
+                    //intent.putExtra("image", image.imageArray[position]);
+                    intent.putExtra("imageUri",uris.get(position).toString());
                     startActivity(intent);
                 }
             });
@@ -131,12 +152,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
-
         switch (requestCode) {
             case MY_READ_PERMISSION_CODE:
                 if(resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
+                    Log.d("app","The uri of the picture " + selectedImage);
+                    uris.add(selectedImage);
+
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                     cursor.moveToFirst();
