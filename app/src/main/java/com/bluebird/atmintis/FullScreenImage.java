@@ -28,12 +28,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -53,6 +57,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.Buffer;
+import java.util.ArrayList;
 
 import android.widget.Button;
 import android.view.View;
@@ -149,7 +154,18 @@ public class FullScreenImage extends AppCompatActivity {
         Intent intent = getIntent();
         int position = intent.getExtras().getInt("id");
         //Bitmap[] imageArray = (Bitmap[]) intent.getParcelableArrayExtra("ImageArray");
-        Bitmap imageBM = intent.getExtras().getParcelable("image");
+        Uri selectedImage = Uri.parse(intent.getExtras().getString("imageUri"));
+
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap imageBM = BitmapFactory.decodeFile(picturePath,bmOptions);
+        //Bitmap imageBM = intent.getExtras().getParcelable("image"); needed for the order version
 
 
         //ImageAdapter imageAdapter = new ImageAdapter(this);
