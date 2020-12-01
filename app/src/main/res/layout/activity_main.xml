@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:id="@+id/layout"
+    tools:context=".MainActivity">
 
-    <FrameLayout
+
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="430dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_launcher_background" />
 
-        <GridView
-            android:id="@+id/grid_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnWidth="90dp"
-            android:gravity="center"
-            android:horizontalSpacing="10dp"
-            android:numColumns="3"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp">
+    <TextView
+        android:background="@drawable/shape"
+        android:id="@+id/addChipV"
+        android:layout_width="wrap_content"
 
+        android:layout_height="wrap_content">
+        </TextView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_gravity="bottom"
+        android:id="@+id/btn_pop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true" />
 
-        </GridView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="30dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_action_add"
-            android:onClick="onClickAddButton"
-            app:backgroundTint="@color/black">
-
-        </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-
-    </FrameLayout>
-
-</LinearLayout>
+</FrameLayout>

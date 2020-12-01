@@ -1,4 +1,4 @@
-package com.bluebird.atmintis;
+package com.example.myapplication5;
 
 import org.junit.Test;
 

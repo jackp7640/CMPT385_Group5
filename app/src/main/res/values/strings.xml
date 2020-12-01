@@ -1,6 +1,3 @@
 <resources>
-    <string name="app_name">Atmintis</string>
-    <string name="add_caption_fab">Tap to add captions to images</string>
-    <string name="play_audio_caption">Press to listen to the audio caption</string>
-    <string name="full_screen_image">Shows the full screen image</string>
+    <string name="app_name">My Application5</string>
 </resources>
