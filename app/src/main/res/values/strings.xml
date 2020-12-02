@@ -3,4 +3,5 @@
     <string name="add_caption_fab">Tap to add captions to images</string>
     <string name="play_audio_caption">Press to listen to the audio caption</string>
     <string name="full_screen_image">Shows the full screen image</string>
+    <string name="press_to_view_set_location_caption">Press to view/set Location Caption</string>
 </resources>
