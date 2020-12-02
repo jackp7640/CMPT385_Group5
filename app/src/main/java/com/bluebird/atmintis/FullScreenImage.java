@@ -68,9 +68,13 @@ import android.view.View;
 public class FullScreenImage extends AppCompatActivity {
 
     //Creating instances
+    private static int uploadId;
     boolean hasTextCaption;
     private static String textCaption;
     private static String textCaptionFileName = null;
+    boolean hasLocationCaption;
+    private static String locationCaption;
+    private static String locationCaptionFileName = null;
 
     ImageView imageView;
     TextToSpeech textToSpeech;
@@ -163,6 +167,33 @@ public class FullScreenImage extends AppCompatActivity {
                 }
         );
 
+        textCaptionButton.setOnLongClickListener(
+                new View.OnLongClickListener()
+                {
+                    public boolean onLongClick(View v){onLongClickTextCaptionButton(v);
+                         return true;}
+                }
+        );
+
+        //Location caption button
+        FloatingActionButton locationCaptionButton = (FloatingActionButton) findViewById(R.id.locCaptionFab);
+        locationCaptionButton.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v)
+                   {
+                        onClickLocationCaptionButton(FullScreenImage.this);
+                    }
+                }
+        );
+
+        locationCaptionButton.setOnLongClickListener(
+                new View.OnLongClickListener()
+                {
+                    public boolean onLongClick(View v){onLongClickLocationCaptionButton(v);
+                        return true;}
+                }
+        );
+
         //Creating files for Caption storage
         getSupportActionBar().hide();
 
@@ -197,6 +228,10 @@ public class FullScreenImage extends AppCompatActivity {
         //file for text caption storage
         textCaptionFileName = "text"+position+".txt";
         hasTextCaption = isHasTextCaption();
+
+        //file for location caption storage
+        locationCaptionFileName = "location"+position+".txt";
+        hasLocationCaption = isHasLocationCaption();
 
 
 
@@ -233,6 +268,15 @@ public class FullScreenImage extends AppCompatActivity {
         }
         else {
             RecordTextCaption(c);
+        }
+    }
+    //If there is a location caption, show it. Otherwise make one.
+    private void onClickLocationCaptionButton(Context c) {
+        if (hasLocationCaption) {
+            DisplayLocationCaption(c);
+        }
+        else {
+            RecordLocationCaption(c);
         }
     }
     
@@ -284,6 +328,54 @@ public class FullScreenImage extends AppCompatActivity {
             Toast.makeText(this, "ERROR SAVING", Toast.LENGTH_LONG).show();
         }
     }
+    //Record the location caption
+    private void RecordLocationCaption(Context c) {
+        final EditText taskEditText = new EditText(c);
+        AlertDialog dialog = new AlertDialog.Builder(c)
+                .setTitle("Add a new location caption")
+                .setView(taskEditText)
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        locationCaption = String.valueOf(taskEditText.getText());
+                        //saveLocationCaptionAsFile(locationCaptionFileName, locationCaption);
+                        saveLocFile(locationCaptionFileName, locationCaption);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
+    }
+    //Display the location caption
+    private void DisplayLocationCaption(Context c) {
+        String text = readFile(locationCaptionFileName);
+        AlertDialog dialog = new AlertDialog.Builder(c)
+                .setTitle("Saved Location Caption")
+                .setMessage(text)
+                .setNegativeButton("Close", null)
+                .create();
+        dialog.show();
+    }
+    //Save the location caption
+    private void saveLocationCaptionAsFile(String locationCaptionFileName, String content) {
+        String fileName = locationCaptionFileName + ".txt";
+
+        File file = new File(fileName);
+
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(content.getBytes());
+            fos.close();
+            Toast.makeText(this, "LOCATION CAPTION SAVED", Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "FILE NOT FOUND", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "ERROR SAVING", Toast.LENGTH_LONG).show();
+        }
+    }
     //Save the file
     private void saveFile(String file, String text) {
         try {
@@ -291,6 +383,19 @@ public class FullScreenImage extends AppCompatActivity {
             fos.write(text.getBytes());
             fos.close();
             hasTextCaption = true;
+            Toast.makeText(this, "SAVED", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "ERROR SAVING", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void saveLocFile(String file, String text) {
+        try {
+            FileOutputStream fos = openFileOutput(file, Context.MODE_PRIVATE);
+            fos.write(text.getBytes());
+            fos.close();
+            hasLocationCaption = true;
             Toast.makeText(this, "SAVED", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -317,10 +422,23 @@ public class FullScreenImage extends AppCompatActivity {
         return text;
     }
 
+    private void onLongClickTextCaptionButton(View view) {
+        if(isHasTextCaption()){
+            deleteDatabase(textCaptionFileName);
+            hasTextCaption = false;
+            Toast.makeText(this,"DELETED!", Toast.LENGTH_SHORT).show();
+        }
+        else Toast.makeText(this,"No file is found",Toast.LENGTH_SHORT).show();
+    }
 
-
-
-
+    private void onLongClickLocationCaptionButton(View view) {
+        if(isHasLocationCaption()){
+            deleteDatabase(locationCaptionFileName);
+            hasLocationCaption = false;
+            Toast.makeText(this,"DELETED!", Toast.LENGTH_SHORT).show();
+        }
+        else Toast.makeText(this,"No file is found",Toast.LENGTH_SHORT).show();
+    }
 
 
     ///
@@ -433,6 +551,14 @@ public class FullScreenImage extends AppCompatActivity {
     //See if there is text caption
     public boolean isHasTextCaption(){
         if (getDatabasePath(getApplicationContext().getFilesDir().getPath()+ "/" + textCaptionFileName).exists()){
+            return true;
+        }
+        return false;
+    }
+
+    //See if there is location caption
+    public boolean isHasLocationCaption(){
+        if (getDatabasePath(getApplicationContext().getFilesDir().getPath()+ "/" + locationCaptionFileName).exists()){
             return true;
         }
         return false;
