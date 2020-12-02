@@ -1,18 +1,18 @@
 /**
-* File: Main activity
-*
-* This file is the main file.
-*
-* Authors:
-* Kieth Chung; mingipchung@gmail.com
-* Aditya Lakshminarayanan; aditya.net09@gmail.com
-* Theo Messer; messertheo@gmail.com
-* Jack Park; jackp7640@gmail.com
-* Charles Wang; xiaotian980204@gmail.com
-*
-* Date: November 6 2020
-*
-*/
+ * File: Main activity
+ *
+ * This file is the main file.
+ *
+ * Authors:
+ * Kieth Chung; mingipchung@gmail.com
+ * Aditya Lakshminarayanan; aditya.net09@gmail.com
+ * Theo Messer; messertheo@gmail.com
+ * Jack Park; jackp7640@gmail.com
+ * Charles Wang; xiaotian980204@gmail.com
+ *
+ * Date: November 6 2020
+ *
+ */
 package com.bluebird.atmintis;
 
 //Imports

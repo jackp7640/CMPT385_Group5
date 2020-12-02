@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-28dp"></ImageView>
+        tools:layout_editor_absoluteX="-16dp"></ImageView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addCaptionFab"
@@ -29,7 +29,7 @@
         android:clickable="true"
         android:contentDescription="@string/add_caption_fab"
         android:focusable="true"
-        android:src="@drawable/ic_caption_button"
+        android:src="@android:drawable/ic_menu_info_details"
         app:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
         android:clickable="true"
         android:contentDescription="@string/play_audio_caption"
         android:focusable="true"
-        android:src="@drawable/ic_audio_caption"
+        android:src="@android:drawable/presence_audio_online"
         app:backgroundTint="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/image_view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,22 +57,53 @@
 
         app:layout_constraintVertical_bias="0.379" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/locCaptionFab"
+    <TextView
+        android:id="@+id/addChipV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="529dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/style"
+        android:text="default tag"
+        app:layout_constraintStart_toStartOf="@id/image_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
-        android:contentDescription="@string/press_to_view_set_location_caption"
-        android:focusable="true"
+        android:id="@+id/btn_pop"
         app:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/image_view"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_location_button" />
+        app:layout_constraintVertical_bias="0.97"
+        app:srcCompat="@drawable/ic_action_add" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="104dp"
+        android:background="@drawable/style"
+        android:text="Deafult Location"
+        app:layout_constraintStart_toStartOf="@id/image_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/getLocation"
+        android:layout_width="56dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#000000"
+        android:clickable="true"
+        android:tint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/btn_pop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_mapmode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
