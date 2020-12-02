@@ -154,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case MY_READ_PERMISSION_CODE:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
-                    Log.d("app","The uri of the picture " + selectedImage);
+                    Log.d("app", "The uri of the picture " + selectedImage);
                     uris.add(selectedImage);
 
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -167,19 +167,17 @@ public class MainActivity extends AppCompatActivity {
                     cursor.close();
 
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath,bmOptions);
-
+                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath, bmOptions);
 
 
                     image.addElement(image.imageArray, bitmap);
-                    Log.d("app", "The # of pictures: "+ Integer.toString(image.getCount()));
+                    Log.d("app", "The # of pictures: " + Integer.toString(image.getCount()));
                     gridView = findViewById(R.id.grid_view);
                     gridView.setAdapter(image);
 
                     //Toast.makeText(this, count, Toast.LENGTH_SHORT).show();
-                    Log.d("app", "The # of pictures: "+ Integer.toString(image.getCount()));
+                    Log.d("app", "The # of pictures: " + Integer.toString(image.getCount()));
                 }
         }
     }
-
 }

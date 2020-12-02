@@ -56,4 +56,23 @@
 
         app:layout_constraintVertical_bias="0.379" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/locCaptionFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="529dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="17dp"
+        android:clickable="true"
+        android:contentDescription="@string/press_to_view_set_location_caption"
+        android:focusable="true"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@android:drawable/ic_menu_compass" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
