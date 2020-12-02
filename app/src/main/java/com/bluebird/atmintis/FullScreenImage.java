@@ -38,6 +38,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -58,6 +59,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.widget.Button;
 import android.view.View;
@@ -71,6 +73,7 @@ public class FullScreenImage extends AppCompatActivity {
     private static String textCaptionFileName = null;
 
     ImageView imageView;
+    TextToSpeech textToSpeech;
 
     //used for CaptionButton
     private FloatingActionButton captionButton = null;
@@ -115,6 +118,18 @@ public class FullScreenImage extends AppCompatActivity {
         setContentView(R.layout.activity_full_screen_image);
         imageView = (ImageView) findViewById(R.id.image_view);
 
+        //Text To Speech TTS Functionality
+        // New OnInit Listener to check if the phone has the ability to run TTS
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS){
+                    int result = textToSpeech.setLanguage(Locale.US);
+                }else{
+                    Log.e("TTS", "Unable to initialize TTS");
+                }
+            }
+        });
 
         //audio caption button
         captionButton= (FloatingActionButton) findViewById(R.id.audioPlayFab);
@@ -312,24 +327,29 @@ public class FullScreenImage extends AppCompatActivity {
 
 
     //Set up the audio caption button to record, playback, or stop, as is appropriate
+    //Checks if TextCaption already exists and then plays TTS audio else records as usual
     public void onClickAudioCaptionButton(View view){
 
-        if(hasCaption){
-            if(isPlaying){
-                stopPlaying();
-            }
-            else {
-                Toast.makeText(this,"PLAYING!",Toast.LENGTH_LONG).show();
-                startPlaying();
-            }
-        }
-        else{
-            if(isRecording){
-                stopRecording();
+        if(isHasTextCaption()){
+            textToSpeech.speak(readFile(textCaptionFileName), textToSpeech.QUEUE_FLUSH, null);
+        }else {
+            if(hasCaption){
+                if(isPlaying){
+                    stopPlaying();
+                }
+                else {
+                    Toast.makeText(this,"PLAYING!",Toast.LENGTH_LONG).show();
+                    startPlaying();
+                }
             }
             else{
-                Toast.makeText(this, "RECORDING!",Toast.LENGTH_LONG).show();
-                startRecording();
+                if(isRecording){
+                    stopRecording();
+                }
+                else{
+                    Toast.makeText(this, "RECORDING!",Toast.LENGTH_LONG).show();
+                    startRecording();
+                }
             }
         }
 
